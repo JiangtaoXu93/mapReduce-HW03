@@ -9,7 +9,7 @@
 
 #Implementation of Neighborhood Score: MapReduce
 
- In KNeighborScores.java, according to input value of REPETITIONS, run runApplication() $(REPETITIONS) times, this method will act as driver and run the following steps:
+ In KNeighborScores.java,  runApplication() will act as driver and run the following steps:
 
 ##Step 1: Run first round MapReduce:
 
@@ -35,6 +35,6 @@ Start job2:
 
 In KNeighborCalculateMapper, fetch books from HDFS, for words in each line, get the neighbors of each word, then according to letter scores, calculate the neighbor scores. So after mapper, we have <key, value>, at which key is word, value is the neighbor score of these key word.
 
-In KNeighborCalculateReducer, for each key, calculate the average of each key.
+In KNeighborCalculateReducer, for each key, save all the value and sort them, return the median.
 
 ##Step 4: Finish program
