@@ -1,0 +1,42 @@
+---
+title: "report"
+author: "Jiangtao Xu"
+date: "10/6/2017"
+output: html_document
+---
+## Execution Environment on AWS
+
+For my configuration, there are one NameNode, one SecondaryNameNode, two DataNode on AWS.
+Both of them are:
+
+Ubuntu Server 16.04 LTS (HVM), EBS General Purpose (SSD) Volume Type. 
+
+Variable ECUs, 1 vCPU, 2.5 GHz, Intel Xeon Family, 1 GiB memory
+
+## About Report
+
+Sorry about no report for this assignment.
+
+I have finshed the full-distributed hadoop, and put data, jar on HDFS. However, when I run the program, mapreduce had been stuck in accepted state, which show as below:
+```{x}
+root@ip-172-31-14-252:/usr/jiangtao/hadoop/a3-jiangtao-xu# make run 
+cd src;number=1 ; while [ $number -le 1 ] ; do \
+        /usr/jiangtao/hadoop/hadoop-2.8.1/bin/hadoop jar NeighborhoodScoreHadoop.jar KNeighborScores  /kneighbor/input /kneighbor/output 2 ; \
+        ((number = number + 1)) ; \
+    done
+Oct 06, 2017 11:21:13 PM KNeighborScores runApplication
+INFO: 1st round mapreduce to get number of letters
+17/10/06 23:21:16 INFO client.RMProxy: Connecting to ResourceManager at namenode/172.31.14.252:8032
+17/10/06 23:21:16 WARN mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+17/10/06 23:21:17 INFO input.FileInputFormat: Total input files to process : 16
+17/10/06 23:21:17 INFO mapreduce.JobSubmitter: number of splits:16
+17/10/06 23:21:17 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1507332052200_0001
+17/10/06 23:21:18 INFO impl.YarnClientImpl: Submitted application application_1507332052200_0001
+17/10/06 23:21:18 INFO mapreduce.Job: The url to track the job: http://namenode:8088/proxy/application_1507332052200_0001/
+17/10/06 23:21:18 INFO mapreduce.Job: Running job: job_1507332052200_0001
+```
+
+There is no warning or error message in namenode log or datanode log. Trying modify yarn.nodemanager.resource.memory-mb and yarn.scheduler.minimum-allocation-mb also did'nt work.
+
+Maybe it occurs because there is only 1 GB memory on AWS, and not enough free resource for scheduler to assign, which caused mapreduce stuck. 
+ 
