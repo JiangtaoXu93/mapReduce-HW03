@@ -1,4 +1,4 @@
-#How to run 
+# How to run 
 
 1) Before first running, put your untar file like "0.utf-8" into input/big-corpus
 2) run "make setup" to put the local file on hdfs, if occur file exist error, run "make teardown" before "make setup"
@@ -7,11 +7,11 @@
 
 
 
-#Implementation of Neighborhood Score: MapReduce
+# Implementation of Neighborhood Score: MapReduce
 
  In KNeighborScores.java,  runApplication() will act as driver and run the following steps:
 
-##Step 1: Run first round MapReduce:
+## Step 1: Run first round MapReduce:
 
 Start job1:
 
@@ -19,7 +19,7 @@ In LetterCountMapper.java, fetch the data from HDFS, for each line, map to <key,
 
 In LetterCountReducer.java, reduce the <key,value>, for each key letter, calculate the total frequency.
 
-##Step 2: Deal with output of first round reduce output:
+## Step 2: Deal with output of first round reduce output:
 
 Read the output of 1st round MapReduce output from HDFS, then calculate the total number of letters by sum the second column;
 
@@ -27,7 +27,7 @@ Read the 1st round output again, for each line, get the letter score by calculat
 
 Set the letter scores into configuration.
 
-##Step 3: Run second round MapReduce:
+## Step 3: Run second round MapReduce:
 
 Use new configuration which contains letter scores and K to start a new Job job2
 
@@ -37,4 +37,4 @@ In KNeighborCalculateMapper, fetch books from HDFS, for words in each line, get 
 
 In KNeighborCalculateReducer, for each key, save all the value and sort them, return the median.
 
-##Step 4: Finish program
+## Step 4: Finish program
